@@ -6,21 +6,14 @@ terraform {
             version = "~> 5.7.0"
         }
     }
-
-    provider "aws" {
-        region = "us-east-1"
-    }
-
-
-    #module_block
-    module "<LABEL>" {
-        source = "../../modules/app/"
-        environment = "devel"
-    }
     #backend
 }
+provider "aws" {
+    region = "us-east-1"
+}
 
-
-
-
-# Add the resources relatedo to the provider
+#module_block
+module "deploy_resources" {
+    source = "../../modules/app/"
+    environment = "devel"
+}
