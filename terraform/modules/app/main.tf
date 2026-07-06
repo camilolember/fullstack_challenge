@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "origin_bucket_policy" {
     ]
 
     resources = [
-      "${aws_s3_bucket.b.arn}/*",
+      "${aws_s3_bucket.clemus-bucket-app.arn}/*",
     ]
 
     condition {
@@ -160,8 +160,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     Environment = "production"
   }
 
-  #viewer_certificate {
-  #  acm_certificate_arn = data.aws_acm_certificate.my_domain.arn
-  #  ssl_support_method  = "sni-only"
-  #}
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
 }

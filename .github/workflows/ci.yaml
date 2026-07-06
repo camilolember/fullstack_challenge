@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main 
+  push:
+    branches:
+      - devel 
 
 jobs:
   build:
@@ -33,3 +36,27 @@ jobs:
 
       - name: Build project
         run: npm run build
+  
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.14.6"
+
+      - name: Terrafom init
+        working-directory: ./terraform/environments/devel
+        run: terraform init
+
+      - name: Terrafom plan
+        working-directory: ./terraform/environments/devel
+        run: terraform plan
+
+      - name: Terrafom apply
+        working-directory: ./terraform/environments/devel
+        run: terraform apply 
