@@ -60,3 +60,5 @@ jobs:
       - name: Terrafom apply
         working-directory: ./terraform/environments/devel
         run: terraform apply 
+
+
